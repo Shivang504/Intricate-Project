@@ -18,10 +18,10 @@ export function CategoryFilter() {
 
   return (
     <Select value={categoryFilter} onValueChange={value => dispatch(setCategoryFilter(value))}>
-      <SelectTrigger className='w-full sm:w-[180px] md:w-[200px]'>
+      <SelectTrigger className='w-full sm:w-[180px] md:w-[200px] min-w-0'>
         <SelectValue placeholder='All Categories' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='max-h-[300px] overflow-y-auto'>
         <SelectItem value='all'>All Categories</SelectItem>
         {categories.map(category => (
           <SelectItem key={category} value={category}>

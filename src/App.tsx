@@ -51,17 +51,17 @@ function Dashboard() {
   }
 
   return (
-    <div className='flex min-h-screen bg-background'>
+    <div className='flex min-h-screen bg-background overflow-x-hidden'>
       <Sidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
 
-      <div className='flex flex-1 flex-col lg:ml-64'>
+      <div className='flex flex-1 flex-col lg:ml-64 min-w-0 overflow-hidden'>
         <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />
 
-        <main className='flex-1 overflow-auto p-3 sm:p-4 md:p-6 lg:p-8'>
+        <main className='flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-4 md:p-6 lg:p-8'>
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className='mx-auto w-full max-w-7xl space-y-4 sm:space-y-6'>
+            <div className='mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 min-w-0'>
               <StatsCards products={allProducts} />
 
               <ProductTable

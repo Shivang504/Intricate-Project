@@ -50,19 +50,21 @@ export function DeleteConfirmationDialog({ open, onOpenChange, productId, produc
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className='w-[95vw] sm:w-full max-w-[425px] mx-4 sm:mx-auto p-4 sm:p-6'>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className='text-lg sm:text-xl'>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription className='text-sm break-words'>
             This will permanently delete <span className='font-semibold'>{productTitle}</span>. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className='flex-col sm:flex-row gap-2 sm:gap-0'>
+          <AlertDialogCancel disabled={loading} className='w-full sm:w-auto order-2 sm:order-1'>
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={loading}
-            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'>
+            className='w-full sm:w-auto order-1 sm:order-2 bg-destructive text-destructive-foreground hover:bg-destructive/90'>
             {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
             Delete
           </AlertDialogAction>

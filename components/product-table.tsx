@@ -21,8 +21,8 @@ export function ProductTable({ products, onEdit, onDelete, onAddProduct }: Produ
 
   return (
     <Card>
-      <CardHeader className='p-4 sm:p-6'>
-        <div className='flex flex-col gap-3 sm:gap-4'>
+      <CardHeader className='px-6'>
+        <div className='flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4'>
           <CardTitle className='text-lg sm:text-xl'>Products</CardTitle>
 
           {/* Search, Filter, and Add Button */}
@@ -54,58 +54,120 @@ export function ProductTable({ products, onEdit, onDelete, onAddProduct }: Produ
         </div>
       </CardHeader>
 
-      <CardContent className='p-0 sm:p-6 pt-0'>
-        <div className='overflow-x-auto -mx-4 sm:mx-0'>
+      <CardContent className='p-0'>
+        {/* Mobile/Tablet Card View */}
+        <div className='lg:hidden'>
+          {products.length === 0 ? (
+            <div className='py-8 sm:py-12 text-center text-sm sm:text-base text-muted-foreground px-4 sm:px-6'>No products found</div>
+          ) : (
+            <div className='space-y-3 sm:space-y-4 p-4 sm:p-6'>
+              {products.map(product => (
+                <Card key={product.id} className='overflow-hidden hover:shadow-md transition-shadow'>
+                  <CardContent className='p-4 sm:p-5'>
+                    <div className='flex gap-3 sm:gap-4'>
+                      {/* Product Image */}
+                      <img
+                        src={product.image || '/placeholder.svg'}
+                        alt={product.title}
+                        className='h-16 w-16 sm:h-20 sm:w-20 rounded-lg border border-border object-contain shrink-0'
+                      />
+
+                      {/* Product Details */}
+                      <div className='flex-1 min-w-0 space-y-2 sm:space-y-3'>
+                        {/* Title and Actions */}
+                        <div className='flex items-start justify-between gap-2'>
+                          <h3 className='text-sm sm:text-base font-semibold text-foreground line-clamp-2 flex-1'>{product.title}</h3>
+                          <div className='flex items-center gap-1 shrink-0'>
+                            <Button variant='ghost' size='icon' onClick={() => onEdit(product)} className='h-8 w-8 sm:h-9 sm:w-9'>
+                              <Edit className='h-4 w-4' />
+                            </Button>
+                            <Button
+                              variant='ghost'
+                              size='icon'
+                              onClick={() => onDelete(product.id, product.title)}
+                              className='h-8 w-8 sm:h-9 sm:w-9 text-destructive hover:text-destructive'>
+                              <Trash2 className='h-4 w-4' />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Product Info Grid */}
+                        <div className='grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm'>
+                          <div>
+                            <span className='text-muted-foreground'>Category:</span>
+                            <div className='mt-0.5'>
+                              <Badge variant='secondary' className='text-xs'>
+                                {product.category}
+                              </Badge>
+                            </div>
+                          </div>
+                          <div>
+                            <span className='text-muted-foreground'>Price:</span>
+                            <p className='mt-0.5 font-semibold text-foreground'>${product.price.toFixed(2)}</p>
+                          </div>
+                          {product.rating && (
+                            <div className='col-span-2'>
+                              <span className='text-muted-foreground'>Rating:</span>
+                              <p className='mt-0.5'>
+                                <span className='font-medium text-foreground'>{product.rating.rate}</span>
+                                <span className='text-muted-foreground ml-1'>({product.rating.count} reviews)</span>
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className='hidden lg:block overflow-x-auto'>
           <div className='inline-block min-w-full align-middle'>
-            <table className='w-full'>
+            <table className='w-full border-collapse'>
               <thead>
-                <tr className='border-b border-border text-left text-xs sm:text-sm font-medium text-muted-foreground'>
-                  <th className='pb-3 pr-3 pl-4 sm:pl-6'>Product</th>
-                  <th className='hidden pb-3 pr-3 md:table-cell'>Category</th>
-                  <th className='pb-3 pr-3'>Price</th>
-                  <th className='hidden pb-3 pr-3 lg:table-cell'>Rating</th>
-                  <th className='pb-3 pr-4 sm:pr-6 text-right'>Actions</th>
+                <tr className='border-b border-border text-left text-sm font-medium text-muted-foreground bg-muted/30'>
+                  <th className='py-3 pr-3 pl-6 whitespace-nowrap'>Product</th>
+                  <th className='py-3 pr-3 whitespace-nowrap'>Category</th>
+                  <th className='py-3 pr-3 whitespace-nowrap'>Price</th>
+                  <th className='py-3 pr-3 whitespace-nowrap'>Rating</th>
+                  <th className='py-3 pr-6 text-right whitespace-nowrap'>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {products.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className='py-8 sm:py-12 text-center text-muted-foreground'>
+                    <td colSpan={5} className='py-12 text-center text-base text-muted-foreground px-6'>
                       No products found
                     </td>
                   </tr>
                 ) : (
                   products.map(product => (
                     <tr key={product.id} className='border-b border-border last:border-0 hover:bg-muted/50 transition-colors'>
-                      <td className='py-3 sm:py-4 pr-3 pl-4 sm:pl-6'>
-                        <div className='flex items-center gap-2 sm:gap-3 min-w-0'>
+                      <td className='py-4 pr-3 pl-6 min-w-[200px]'>
+                        <div className='flex items-center gap-3 min-w-0'>
                           <img
                             src={product.image || '/placeholder.svg'}
                             alt={product.title}
-                            className='h-10 w-10 sm:h-12 sm:w-12 rounded-lg border border-border object-contain shrink-0'
+                            className='h-12 w-12 rounded-lg border border-border object-contain shrink-0'
                           />
                           <div className='min-w-0 flex-1'>
-                            <p className='truncate max-w-[500px] text-sm sm:text-base font-medium text-foreground'>{product.title}</p>
-                            <div className='flex items-center gap-2 mt-0.5'>
-                              <p className='truncate text-xs sm:text-sm text-muted-foreground md:hidden'>{product.category}</p>
-                              <Badge variant='secondary' className='md:hidden text-xs shrink-0'>
-                                ${product.price.toFixed(2)}
-                              </Badge>
-                            </div>
+                            <p className='truncate text-base font-medium xl:max-w-[500px] text-foreground'>{product.title}</p>
                           </div>
                         </div>
                       </td>
-                      <td className='hidden pr-3 md:table-cell'>
-                        <Badge variant='secondary' className='text-xs'>
+                      <td className='py-4 pr-3'>
+                        <Badge variant='secondary' className='text-xs whitespace-nowrap'>
                           {product.category}
                         </Badge>
                       </td>
-                      <td className='hidden pr-3 font-semibold text-foreground text-sm sm:text-base md:table-cell'>
-                        ${product.price.toFixed(2)}
-                      </td>
-                      <td className='hidden pr-3 lg:table-cell'>
+                      <td className='py-4 pr-3 font-semibold text-foreground text-base whitespace-nowrap'>${product.price.toFixed(2)}</td>
+                      <td className='py-4 pr-3'>
                         {product.rating ? (
-                          <div className='flex items-center gap-1 text-sm'>
+                          <div className='flex items-center gap-1 text-sm whitespace-nowrap'>
                             <span className='text-foreground'>{product.rating.rate}</span>
                             <span className='text-muted-foreground'>({product.rating.count})</span>
                           </div>
@@ -113,16 +175,16 @@ export function ProductTable({ products, onEdit, onDelete, onAddProduct }: Produ
                           <span className='text-sm text-muted-foreground'>N/A</span>
                         )}
                       </td>
-                      <td className='pr-4 sm:pr-6'>
-                        <div className='flex items-center justify-end gap-1 sm:gap-2'>
-                          <Button variant='ghost' size='icon' onClick={() => onEdit(product)} className='h-8 w-8 shrink-0'>
+                      <td className='py-4 pr-6'>
+                        <div className='flex items-center justify-end gap-2'>
+                          <Button variant='ghost' size='icon' onClick={() => onEdit(product)} className='h-9 w-9 shrink-0'>
                             <Edit className='h-4 w-4' />
                           </Button>
                           <Button
                             variant='ghost'
                             size='icon'
                             onClick={() => onDelete(product.id, product.title)}
-                            className='h-8 w-8 text-destructive hover:text-destructive shrink-0'>
+                            className='h-9 w-9 text-destructive hover:text-destructive shrink-0'>
                             <Trash2 className='h-4 w-4' />
                           </Button>
                         </div>

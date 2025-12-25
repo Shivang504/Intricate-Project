@@ -191,29 +191,30 @@ export function ProductFormDialog({ open, onOpenChange, product }: ProductFormDi
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className='max-h-[95vh] overflow-y-auto w-[95vw] max-w-[500px] mx-4 sm:mx-auto'>
-        <DialogHeader className='px-1 sm:px-0'>
+      <DialogContent className='max-h-[95vh] overflow-y-auto w-[95vw] sm:w-full max-w-[500px] mx-4 sm:mx-auto p-4 sm:p-6'>
+        <DialogHeader>
           <DialogTitle className='text-lg sm:text-xl'>{product ? 'Edit Product' : 'Add New Product'}</DialogTitle>
           <DialogDescription className='text-sm'>
             {product ? 'Update the product details below' : 'Fill in the details to create a new product'}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className='space-y-4 px-1 sm:px-0'>
+        <form onSubmit={handleSubmit} className='space-y-4'>
           <div className='space-y-2'>
-            <Label htmlFor='title'>Product Title *</Label>
+            <Label htmlFor='title' className='text-sm font-medium'>Product Title *</Label>
             <Input
               id='title'
               placeholder='Enter product title'
               value={formData.title}
               onChange={e => handleChange('title', e.target.value)}
               disabled={loading}
+              className='w-full'
             />
-            {errors.title && <p className='text-sm text-destructive'>{errors.title}</p>}
+            {errors.title && <p className='text-xs sm:text-sm text-destructive'>{errors.title}</p>}
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='price'>Price *</Label>
+            <Label htmlFor='price' className='text-sm font-medium'>Price *</Label>
             <Input
               id='price'
               type='number'
@@ -222,14 +223,15 @@ export function ProductFormDialog({ open, onOpenChange, product }: ProductFormDi
               value={formData.price}
               onChange={e => handleChange('price', e.target.value)}
               disabled={loading}
+              className='w-full'
             />
-            {errors.price && <p className='text-sm text-destructive'>{errors.price}</p>}
+            {errors.price && <p className='text-xs sm:text-sm text-destructive'>{errors.price}</p>}
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='category'>Category *</Label>
+            <Label htmlFor='category' className='text-sm font-medium'>Category *</Label>
             <Select value={formData.category} onValueChange={value => handleChange('category', value)} disabled={loading}>
-              <SelectTrigger id='category'>
+              <SelectTrigger id='category' className='w-full'>
                 <SelectValue placeholder='Select category' />
               </SelectTrigger>
               <SelectContent>
@@ -240,11 +242,11 @@ export function ProductFormDialog({ open, onOpenChange, product }: ProductFormDi
                 ))}
               </SelectContent>
             </Select>
-            {errors.category && <p className='text-sm text-destructive'>{errors.category}</p>}
+            {errors.category && <p className='text-xs sm:text-sm text-destructive'>{errors.category}</p>}
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='description'>Description *</Label>
+            <Label htmlFor='description' className='text-sm font-medium'>Description *</Label>
             <Textarea
               id='description'
               placeholder='Enter product description'
@@ -252,26 +254,29 @@ export function ProductFormDialog({ open, onOpenChange, product }: ProductFormDi
               value={formData.description}
               onChange={e => handleChange('description', e.target.value)}
               disabled={loading}
+              className='w-full resize-none'
             />
-            {errors.description && <p className='text-sm text-destructive'>{errors.description}</p>}
+            {errors.description && <p className='text-xs sm:text-sm text-destructive'>{errors.description}</p>}
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='image'>Image URL</Label>
+            <Label htmlFor='image' className='text-sm font-medium'>Image URL</Label>
             <Input
               id='image'
+              type='url'
               placeholder='https://example.com/image.jpg'
               value={formData.image}
               onChange={e => handleChange('image', e.target.value)}
               disabled={loading}
+              className='w-full'
             />
           </div>
 
-          <DialogFooter className='flex-col sm:flex-row gap-2 px-1 sm:px-0'>
-            <Button type='button' variant='outline' onClick={handleClose} disabled={loading} className='w-full sm:w-auto'>
+          <DialogFooter className='flex-col sm:flex-row gap-2 sm:gap-0'>
+            <Button type='button' variant='outline' onClick={handleClose} disabled={loading} className='w-full sm:w-auto order-2 sm:order-1'>
               Cancel
             </Button>
-            <Button type='submit' disabled={loading} className='w-full sm:w-auto'>
+            <Button type='submit' disabled={loading} className='w-full sm:w-auto order-1 sm:order-2'>
               {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
               {product ? 'Update Product' : 'Create Product'}
             </Button>

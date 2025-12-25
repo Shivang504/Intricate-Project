@@ -32,40 +32,47 @@ export function ProductChart({ products, type = "price" }: ProductChartProps) {
         <CardTitle className='text-base sm:text-lg'>{type === "price" ? "Price Trends" : "Products by Category"}</CardTitle>
       </CardHeader>
       <CardContent className='p-4 sm:p-6 pt-0'>
-        <div className='w-full' style={{ height: '250px' }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis 
-                dataKey="name" 
-                stroke="hsl(var(--muted-foreground))" 
-                fontSize={10}
-                tick={{ fontSize: 10 }}
-                className='text-[10px] sm:text-xs'
-              />
-              <YAxis 
-                stroke="hsl(var(--muted-foreground))" 
-                fontSize={10}
-                tick={{ fontSize: 10 }}
-                className='text-[10px] sm:text-xs'
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "var(--radius)",
-                  fontSize: "12px",
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="hsl(var(--primary))"
-                strokeWidth={2}
-                dot={{ fill: "hsl(var(--primary))", r: 3 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className='w-full overflow-x-auto'>
+          <div className='min-w-[280px] min-h-[200px] sm:min-h-[250px] sm:h-[250px]'>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis 
+                  dataKey="name" 
+                  stroke="hsl(var(--muted-foreground))" 
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                  interval={0}
+                />
+                <YAxis 
+                  stroke="hsl(var(--muted-foreground))" 
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
+                  width={40}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "var(--radius)",
+                    fontSize: "11px",
+                    padding: "8px",
+                  }}
+                  wrapperStyle={{ fontSize: "12px" }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  dot={{ fill: "hsl(var(--primary))", r: 3 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </CardContent>
     </Card>
